@@ -25,9 +25,9 @@ The checker function accepts some parameters as below:
 | Name | Required | Type | Default Value | Description |
 | ---- | -------- | ---- | ------------- | ----------- |
 | response | Yes | String | - | The response comes from server |
-| remoteip | Yes | String | - | The IP?!! |
-| SignaturePreferration | No | Boolean | False | The Sig |
-| extra_params | No | Array | [] | In case you want to provide extra options |
+| remoteip | Yes | String | - | The Client IP?!! |
+| SignaturePreferration | No | Boolean | False | if set True it will try to validate response with Public Key |
+| extra_params | No | Array | [] | - |
 
    [iris]: <http://irisdev.net/>
    [zip]: <https://github.com/IrisDev-net/IrisCaptchaPHPLib/archive/main.zip>
