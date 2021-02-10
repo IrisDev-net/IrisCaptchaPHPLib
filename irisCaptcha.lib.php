@@ -88,7 +88,6 @@ class IrisCaptcha
 
         // prepaire the raw body
         $rawBody = $this->_irisCaptcha_qsencode($data);
-
         // prepaire the raw packets
         $http_request  = "POST $path HTTP/1.1\r\n";
         $http_request .= "Host: $host\r\n";
@@ -104,7 +103,6 @@ class IrisCaptcha
         // opening Socket port
         $fs = @fsockopen("ssl://". $host, 443, $errno, $errstr, 10);
         if( $fs == false ) {
-            die("\nOpenSocketException");
             throw new OpenSocketException;
             return;
         }
@@ -127,10 +125,10 @@ class IrisCaptcha
     Private function _irisCaptcha_qsencode ($data) {
             $req = "";
             foreach ( $data as $key => $value )
-                    $req .= $key . ':' . urlencode( stripslashes($value) ) . "\r\n";
+                    $req .= $key . '=' . urlencode( stripslashes($value) ) . "&";
 
             // Cut the last '&'
-            $req=substr($req,0,strlen($req)-2);
+            $req=substr($req,0,strlen($req)-1);
             return $req;
     }
 
@@ -159,17 +157,23 @@ class IrisCaptcha
                                                         'response' => $response
                                                         ) + $extra_params
                                                 );
-            $answers = json_decode( $response [1]);
-            $irisCaptcha_response = new IrisCaptchaResponse();
 
-            if ($answers->Success) {
-                    $irisCaptcha_response->is_valid = true;
-            }
-            else {
-                    $irisCaptcha_response->is_valid = false;
-                    $irisCaptcha_response->error = $answers->Message;
-            }
-            return $irisCaptcha_response;
+        $response = explode("{",$response[1],2);
+        $response = explode("}",strrev($response[1]),2);
+
+        $response = "{" . strrev($response[1])."}";
+
+        $answers = json_decode($response);
+        $irisCaptcha_response = new IrisCaptchaResponse();
+
+        if ($answers->Success) {
+                $irisCaptcha_response->is_valid = true;
+        }
+        else {
+                $irisCaptcha_response->is_valid = false;
+                $irisCaptcha_response->error = $answers->Message;
+        }
+        return $irisCaptcha_response;
 
         }
 
@@ -767,10 +771,15 @@ function Test(){
     $secret ="533a64afb4c496cc34dfd00d1ecbd45cfa2784b2c3eba4aa02e7a4dcbe081aa40x2711";
     $irisCaptcha = new IrisCaptcha($secret,$irisCaptchaPublicKey);
 
-    $userResponse = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWNjZXNzIjp0cnVlLCJob3N0bmFtZSI6ImlyaXNkZXYubmV0IiwiaXAiOiIxMDkuMTI1LjE2OS4xMjQiLCJleHAiOjE2MTI5Mzk0NTEsImlhdCI6MTYxMjkzOTM5MX0.Va9Ppo-qQk8p4Omro0j3o1QzlMyFVL69fhfMqqb9qyZpV_XvuzESxeQxxhO0WOfC6l7Hf74cDL8eFPFJUme6dg8MzGsWi93JvChuS778BJhEeitIu42GE7OOBdvnVB8lUO05EksLb3w421xPZMh_xZ3ssmKD3E_i-N8xxF8A0ksGiHb4-n_zslYde_Gj_yP-Xb4Uzl70kLYuMerdPXBaE65eWG8ES-5R41toc4sy_J1BKqywyek0KmJXGrSNN5o9dwcaYGWHzfJa7ya2_R9iSpZd-JJp0YPj7xAnVLWaR3YS6GXBpoEsHcvSiveOYWqbxCkZGfNfLc6E_QLcvg_HSA";
+    $userResponse = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWNjZXNzIjp0cnVlLCJob3N0bmFtZSI6ImlyaXNkZXYubmV0IiwiaXAiOiIxODUuMjM1LjQwLjE3MSIsImV4cCI6MTYxMjk1MDQ4NCwiaWF0IjoxNjEyOTUwNDI0fQ.S0l_YksAMSGjipvPb0sw4QkF8R2l3j84IKFJwvQor0ok6_UbnpeGmvLPTdeD7EUO7tYKRKKZMI3M6yvMpt_bOFUXCoGWQwQG4shmaIMVWqPAjayDU_ccbC6ialEiEETBtShscDoXo63JfcG0aBUTb0cPlMYFcillW1XeiyGuvXvMHRrBa_oz8NS7we8xysPA9gr2dnrHKsWb1oU30Om8w4Xy_tRJVxIRWRH9DiE8d8iYT-9cL-NAyS2jA20I7tQ2V36tKrtJbr72IOc-Nu4vNY3QvvytPkdDlqY9lTN7sX5_THYDAPtsAjaF-Taq0EHrS1qxjFmM2l5z5MPjFo1sYQ";
 
-    $res = $irisCaptcha->Check_Answer($userResponse,"109.125.169.124",false);
-    var_dump($res);
+    $res = $irisCaptcha->Check_Answer($userResponse,"185.235.40.171",false);
+    if ($res->is_valid) {
+        echo "HOOOORRRAAA";
+    }else{
+
+        var_dump($res);
+    }
 
 };
 
