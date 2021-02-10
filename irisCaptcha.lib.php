@@ -203,7 +203,7 @@ class IrisCaptcha
         }
         
 
-        if($decoded->ip != $remoteip ) {
+        if($decoded->ip != $remoteip && $remoteip !="::1" && $remoteip !="127.0.0.1"  ) {
             $irisCaptcha_response = new IrisCaptchaResponse();
             $irisCaptcha_response->is_valid = FALSE;
             $irisCaptcha_response->error = "The Ip of user and token does not match";
