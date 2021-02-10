@@ -29,7 +29,7 @@ $irisCaptcha = new IrisCaptcha("your secret",$irisCaptchaPublicKey);
 */
 
 
-define("LibVersion","1")
+define("LibVersion","1");
 define("IrisCaptcha_VERIFY_SERVER", "captcha.irisdev.net");
 define("IrisCaptcha_JS_SERVER", "https://captcha.irisdev.net/js");
 
