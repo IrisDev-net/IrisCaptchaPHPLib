@@ -756,31 +756,3 @@ class JWT
         return $der . $value;
     }
 }
-
-function Test(){
-
-    $irisCaptchaPublicKey = "-----BEGIN PUBLIC KEY-----
-    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh+qPUxi6QYz7T22NdHcI
-    k3JxGQ4yzgaM+b+ReHHjnxy/o9FQ0bAU8B/jwAWGMAhtFoj6ERmbYEgWwUMy4yJ5
-    f0EFfrzcbSKkI+lr5LejyjocxxA5PI5tNLPTVrQMC/5kkHpylN5mTmcDFz3zT6EQ
-    EFJzJ+zRBdoQNIc3CW2WSA5vK2042iZRhOsbTWbxaP0TK+lqbcQSoWRAFBTOA4ZF
-    6PSTlO84p9M6/JkoyRPDYplVqXq+HMLs9uFHal3rN+KjQ2E7g0poFkvfXgGC0nUh
-    lMoLQBdSB1yT7oJc9Mua+/4Z1e1ma47d/kNxV+U5GjOfLHfqMo7xcfwocQ7ky+be
-    MQIDAQAB
-    -----END PUBLIC KEY-----";
-    $secret ="533a64afb4c496cc34dfd00d1ecbd45cfa2784b2c3eba4aa02e7a4dcbe081aa40x2711";
-    $irisCaptcha = new IrisCaptcha($secret,$irisCaptchaPublicKey);
-
-    $userResponse = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWNjZXNzIjp0cnVlLCJob3N0bmFtZSI6ImlyaXNkZXYubmV0IiwiaXAiOiIxODUuMjM1LjQwLjE3MSIsImV4cCI6MTYxMjk1MDQ4NCwiaWF0IjoxNjEyOTUwNDI0fQ.S0l_YksAMSGjipvPb0sw4QkF8R2l3j84IKFJwvQor0ok6_UbnpeGmvLPTdeD7EUO7tYKRKKZMI3M6yvMpt_bOFUXCoGWQwQG4shmaIMVWqPAjayDU_ccbC6ialEiEETBtShscDoXo63JfcG0aBUTb0cPlMYFcillW1XeiyGuvXvMHRrBa_oz8NS7we8xysPA9gr2dnrHKsWb1oU30Om8w4Xy_tRJVxIRWRH9DiE8d8iYT-9cL-NAyS2jA20I7tQ2V36tKrtJbr72IOc-Nu4vNY3QvvytPkdDlqY9lTN7sX5_THYDAPtsAjaF-Taq0EHrS1qxjFmM2l5z5MPjFo1sYQ";
-
-    $res = $irisCaptcha->Check_Answer($userResponse,"185.235.40.171",false);
-    if ($res->is_valid) {
-        echo "HOOOORRRAAA";
-    }else{
-
-        var_dump($res);
-    }
-
-};
-
-Test();
